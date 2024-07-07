@@ -76,6 +76,7 @@ int WINAPI Hook_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCm
 	if (!keepfpslimit)
 		PatchGOGNoFPSLimit();
 
+
 	// Continue to the program's WinMain.
 
 	WinMain_Type OldWinMain=(WinMain_Type)0x00520ba0;
