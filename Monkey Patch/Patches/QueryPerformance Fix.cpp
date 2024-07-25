@@ -11,6 +11,7 @@
 #include "QueryPerformance Fix.h"
 #include "../FileLogger.h"
 #include "../iat_functions.h"
+#include <cmath>
 
 double query_perf_mult=1.0;
 
@@ -51,6 +52,12 @@ void PatchQueryPerformance()
 	InitQueryPerformance();
 	
 	HMODULE main_handle=GetModuleHandleA(NULL);
+
+	if(fabs(query_perf_mult-1.0)<0.00001)
+	{
+		PrintLog->PrintInfo("No speed-up bug detected. Skipping patch.\n");
+		return;
+	}
 
 	if(PatchIat(main_handle,"Kernel32.dll", "QueryPerformanceFrequency", (void *)hook_QueryPerformanceFrequency, &old_proc)==S_OK)
 		PrintLog->PrintSys("Patched Kernel32.QueryPerformanceFrequency.\n");
