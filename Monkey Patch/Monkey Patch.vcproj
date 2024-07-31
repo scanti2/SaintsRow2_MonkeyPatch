@@ -267,6 +267,14 @@
 				RelativePath=".\Patches\QueryPerformance Fix.h"
 				>
 			</File>
+			<File
+				RelativePath=".\vlib_library_load_extender.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\vlib_library_load_extender.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\Properties.rc"

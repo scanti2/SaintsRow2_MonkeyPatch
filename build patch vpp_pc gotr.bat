@@ -1,0 +1,1 @@
+tools\Gibbed.SaintsRow2.BuildPackage.exe release\monkey_patch_gotr.vpp_pc "monkey_patch_vpp_pc\gotr"

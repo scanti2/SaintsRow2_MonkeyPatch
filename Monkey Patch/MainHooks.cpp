@@ -76,6 +76,8 @@ int WINAPI Hook_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCm
 	if (!keepfpslimit)
 		PatchGOGNoFPSLimit();
 
+	extend_vlib_library_load_list();
+
 
 	// Continue to the program's WinMain.
 

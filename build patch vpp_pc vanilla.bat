@@ -1,0 +1,1 @@
+tools\Gibbed.SaintsRow2.BuildPackage.exe release\monkey_patch.vpp_pc "monkey_patch_vpp_pc\vanilla"
