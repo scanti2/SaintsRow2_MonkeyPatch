@@ -1,0 +1,12 @@
+char *const team_name_list_sr2[8] =
+{
+  "Playas",
+  "Brotherhood",
+  "Ronin",
+  "Samedi",
+  "Neutral Gang",
+  "Police",
+  "Ultor",
+  "Civilian"
+};
+

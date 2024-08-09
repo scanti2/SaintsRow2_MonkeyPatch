@@ -1,0 +1,9 @@
+char *cower_flee_mode_list[5] =
+{
+  "cower flee normal",
+  "always cower when attacked",
+  "always flee when attacked",
+  "never cower or flee",
+  "never flee"
+};
+
