@@ -83,7 +83,7 @@ int CDFEngine::StartZone(void *param_1, char *ZoneName)
 	return 0;
 }
 
-int	CDFEngine::CreateDFObject(void *param_1, char *ObjectIdent, void *param_3)
+int	CDFEngine::CreateDFObject(void *param_1, char *ObjectIdent, CDFObjectInstance *param_3)
 {
 	//PrintLog->PrintSys("DFEngine::CreateDFObject(%s, %x)\n", ObjectIdent, param_3);
 	return 0;
