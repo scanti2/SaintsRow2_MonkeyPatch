@@ -9,6 +9,7 @@
 #include "iat_functions.h"
 
 static CDFEngine DFEngine;
+static CDFObjectInstance fake_CDFObject;
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -71,21 +72,60 @@ CDFEngine *CreateDFEngine(void)
 	return(&DFEngine);
 }
 
+int	CDFObjectInstance::GetAbsoluteFilename(void *that, wchar_t * filenamepath_out, int param_3)
+{
+	static wchar_t* test_ad_directory=L"C:\\Games\\GOG\\Saints Row 2\\data\\DFEngine\\cache\\data\\Default\\Default.tga";
+	wchar_t* test_ad_dir=L"\\data\\DFEngine\\cache\\data\\Default\\Default.tga";
+
+	wchar_t ad_directory[260];
+	int path_size;
+
+	GetCurrentDirectoryW(260,ad_directory);
+	path_size=wcslen(ad_directory);
+	
+	//PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename\n");
+	wcscpy(filenamepath_out,ad_directory);
+	wcscpy(&filenamepath_out[path_size],test_ad_dir);
+	PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
+	return 0;
+}
+
+int	CDFObjectInstance::UpdateOnEvent(void *that, int param_2, float *param_3)
+{
+	//PrintLog->PrintSys("CDFObjectInstance::UpdateOnEvent\n");
+	return 0;
+}
+
+int	CDFObjectInstance::SetLocalBoundingBox(void *that, float *param_2, float *param_3)
+{
+	PrintLog->PrintSys("CDFObjectInstance::SetLocalBoundingBox\n");
+	return 0;
+}
+
+float* CDFObjectInstance::SetLocalLookAt(void *that, float *param_2)
+{
+	PrintLog->PrintSys("CDFObjectInstance::SteLocalLookAt\n");
+	return param_2;
+}
+
 int	CDFEngine::Start(void *param_1, int version, wchar_t **data_directory)
 {
 	//PrintLog->PrintSys("DFEngine::Start(%x, %S)\n", version, *data_directory);
-	return -1;
+	return 0;
+	//return -1;
 }
 
 int CDFEngine::StartZone(void *param_1, char *ZoneName)
 {
-	//PrintLog->PrintSys("DFEngine::StartZone(%s)\n", ZoneName);
+	PrintLog->PrintSys("DFEngine::StartZone(%s)\n", ZoneName);
 	return 0;
 }
 
-int	CDFEngine::CreateDFObject(void *param_1, char *ObjectIdent, CDFObjectInstance *param_3)
+int	CDFEngine::CreateDFObject(void *param_1, char *ObjectIdent, CDFObjectInstance **param_3)
 {
-	//PrintLog->PrintSys("DFEngine::CreateDFObject(%s, %x)\n", ObjectIdent, param_3);
+	PrintLog->PrintSys("DFEngine::CreateDFObject(%s)\n", ObjectIdent);
+
+	*param_3=&fake_CDFObject;
 	return 0;
 }
 
