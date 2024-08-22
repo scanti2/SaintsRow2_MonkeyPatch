@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,2,0,0
- PRODUCTVERSION 0,2,0,0
+ FILEVERSION 0,3,0,0
+ PRODUCTVERSION 0,3,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -70,11 +70,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "SR2 Patch"
-            VALUE "FileVersion", "0.2"
+            VALUE "FileVersion", "0.3"
             VALUE "InternalName", "SR2 Patch"
             VALUE "OriginalFilename", "DFEngine.dll"
             VALUE "ProductName", "SR2 Patch"
-            VALUE "ProductVersion", "0.2"
+            VALUE "ProductVersion", "0.3"
         END
     END
     BLOCK "VarFileInfo"

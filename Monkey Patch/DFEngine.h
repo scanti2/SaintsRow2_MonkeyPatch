@@ -1,5 +1,7 @@
 #pragma once
 
+void set_up_billboard_stuff();
+
 class CDFObjectInstance
 {
 public:
@@ -31,8 +33,6 @@ public:
 	void *class_offest_04;
 	void *class_offset_08;
 };
-
-
 
 class CDFEngine
 {	

@@ -12,6 +12,9 @@
 static CDFEngine DFEngine;
 static CDFObjectInstance fake_CDFObject;
 
+static std::vector<std::wstring> find_billboards_list;
+static int number_of_billboard_files;
+
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
@@ -70,22 +73,21 @@ CDFEngine *CreateDFEngine(void)
 			PrintLog->PrintWarn("Passthrough failed. Using fake DFEngine.\n");
 	}
 
+	set_up_billboard_stuff();
+
 	return(&DFEngine);
 }
 
-int	CDFObjectInstance::GetAbsoluteFilename(void *that, wchar_t * filenamepath_out, int param_3)
+void set_up_billboard_stuff()
 {
-	wchar_t* default_ad_dir=L"\\data\\DFEngine\\cache\\data\\Default\\Default.tga";
-
-	WIN32_FIND_DATAW find_file_data;
 	HANDLE find_handle;
-	std::vector<std::wstring> find_filename_list;
-
-	// wchar_t* test_ad_dir=L"\\billboards\\dds_test.dds";
+	WIN32_FIND_DATAW find_file_data;
 
 	wchar_t game_directory[MAX_PATH];
 	wchar_t search_path[MAX_PATH];
 	int path_size;
+
+	//PrintLog->PrintSys("Setting up billboards.\n");
 
 	GetCurrentDirectoryW(MAX_PATH,game_directory);
 	path_size=wcslen(game_directory);
@@ -93,16 +95,12 @@ int	CDFObjectInstance::GetAbsoluteFilename(void *that, wchar_t * filenamepath_ou
 	wcscpy(search_path,game_directory);
 	wcscpy(&search_path[path_size],L"\\billboards\\*.*");
 
-	PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename - searching for %S\n",search_path);
-
 	memset(&find_file_data,0,sizeof(find_file_data));
 	find_handle=FindFirstFileW(search_path,&find_file_data);
+
 	if(find_handle == INVALID_HANDLE_VALUE)
 	{
-		wcscpy(filenamepath_out,game_directory);
-		wcscpy(&filenamepath_out[path_size],default_ad_dir);
-		PrintLog->PrintSys("Billboard directory not found or empty. Using default billboard.");
-		PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
+		number_of_billboard_files=0;
 	}
 	else
 	{
@@ -110,17 +108,47 @@ int	CDFObjectInstance::GetAbsoluteFilename(void *that, wchar_t * filenamepath_ou
 		{
 			if(wcslen(find_file_data.cFileName)>3)
 			{
-				find_filename_list.push_back(find_file_data.cFileName);
+				find_billboards_list.push_back(find_file_data.cFileName);
 			}
 		}
+		number_of_billboard_files=find_billboards_list.size();
+	}
 
+	PrintLog->PrintSys("Found %i billboard files\n",number_of_billboard_files);
+
+	FindClose(find_handle);
+	return;
+}
+
+
+int	CDFObjectInstance::GetAbsoluteFilename(void *that, wchar_t * filenamepath_out, int param_3)
+{
+	wchar_t* default_ad_dir=L"\\data\\DFEngine\\cache\\data\\Default\\Default.tga";
+
+	wchar_t game_directory[MAX_PATH];
+	int path_size;
+
+	//PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename\n");
+
+	GetCurrentDirectoryW(MAX_PATH,game_directory);
+	path_size=wcslen(game_directory);
+
+	if(number_of_billboard_files == 0)
+	{
+		wcscpy(filenamepath_out,game_directory);
+		wcscpy(&filenamepath_out[path_size],default_ad_dir);
+		PrintLog->PrintSys("Billboard directory not found or empty. Using default billboard.\n");
+		//PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
+	}
+	else
+	{
+		//PrintLog->PrintSys("Number of files: %i",number_of_billboard_files);
 		wcscpy(filenamepath_out,game_directory);
 		wcscpy(&filenamepath_out[path_size],L"\\billboards\\");
-		wcscpy(&filenamepath_out[path_size+12],find_filename_list[rand()%find_filename_list.size()].c_str());
+		wcscpy(&filenamepath_out[path_size+12],find_billboards_list[rand()%number_of_billboard_files].c_str());
 
-		PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
+		//PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
 	}
-	FindClose(find_handle);
 	return 0;
 }
 
@@ -132,13 +160,13 @@ int	CDFObjectInstance::UpdateOnEvent(void *that, int param_2, float *param_3)
 
 int	CDFObjectInstance::SetLocalBoundingBox(void *that, float *param_2, float *param_3)
 {
-	PrintLog->PrintSys("CDFObjectInstance::SetLocalBoundingBox\n");
+	//PrintLog->PrintSys("CDFObjectInstance::SetLocalBoundingBox\n");
 	return 0;
 }
 
 float* CDFObjectInstance::SetLocalLookAt(void *that, float *param_2)
 {
-	PrintLog->PrintSys("CDFObjectInstance::SteLocalLookAt\n");
+	//PrintLog->PrintSys("CDFObjectInstance::SteLocalLookAt\n");
 	return param_2;
 }
 
@@ -151,13 +179,13 @@ int	CDFEngine::Start(void *param_1, int version, wchar_t **data_directory)
 
 int CDFEngine::StartZone(void *param_1, char *ZoneName)
 {
-	PrintLog->PrintSys("DFEngine::StartZone(%s)\n", ZoneName);
+	///PrintLog->PrintSys("DFEngine::StartZone(%s)\n", ZoneName);
 	return 0;
 }
 
 int	CDFEngine::CreateDFObject(void *param_1, char *ObjectIdent, CDFObjectInstance **param_3)
 {
-	PrintLog->PrintSys("DFEngine::CreateDFObject(%s)\n", ObjectIdent);
+	//PrintLog->PrintSys("DFEngine::CreateDFObject(%s)\n", ObjectIdent);
 
 	*param_3=&fake_CDFObject;
 	return 0;

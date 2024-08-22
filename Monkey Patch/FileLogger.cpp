@@ -58,9 +58,9 @@ bool FileLogger::PrintSys(char *message,...) const
 // If we are debugging we could be crashing, so make sure the log file data is written so soon as possible. Otherwise
 // important debugging info could get lost in the crash.
 
-//#ifdef _DEBUG
+#ifdef _DEBUG
 	fflush(log_handle);
-//#endif
+#endif
 
     va_end(args);
 
