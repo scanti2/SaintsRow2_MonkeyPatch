@@ -7,6 +7,7 @@
 #include "SafeWrite.h"
 #include "MainHooks.h"
 #include "iat_functions.h"
+#include <vector>
 
 static CDFEngine DFEngine;
 static CDFObjectInstance fake_CDFObject;
@@ -74,19 +75,52 @@ CDFEngine *CreateDFEngine(void)
 
 int	CDFObjectInstance::GetAbsoluteFilename(void *that, wchar_t * filenamepath_out, int param_3)
 {
-	static wchar_t* test_ad_directory=L"C:\\Games\\GOG\\Saints Row 2\\data\\DFEngine\\cache\\data\\Default\\Default.tga";
-	wchar_t* test_ad_dir=L"\\data\\DFEngine\\cache\\data\\Default\\Default.tga";
+	wchar_t* default_ad_dir=L"\\data\\DFEngine\\cache\\data\\Default\\Default.tga";
 
-	wchar_t ad_directory[260];
+	WIN32_FIND_DATAW find_file_data;
+	HANDLE find_handle;
+	std::vector<std::wstring> find_filename_list;
+
+	// wchar_t* test_ad_dir=L"\\billboards\\dds_test.dds";
+
+	wchar_t game_directory[MAX_PATH];
+	wchar_t search_path[MAX_PATH];
 	int path_size;
 
-	GetCurrentDirectoryW(260,ad_directory);
-	path_size=wcslen(ad_directory);
-	
-	//PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename\n");
-	wcscpy(filenamepath_out,ad_directory);
-	wcscpy(&filenamepath_out[path_size],test_ad_dir);
-	PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
+	GetCurrentDirectoryW(MAX_PATH,game_directory);
+	path_size=wcslen(game_directory);
+
+	wcscpy(search_path,game_directory);
+	wcscpy(&search_path[path_size],L"\\billboards\\*.*");
+
+	PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename - searching for %S\n",search_path);
+
+	memset(&find_file_data,0,sizeof(find_file_data));
+	find_handle=FindFirstFileW(search_path,&find_file_data);
+	if(find_handle == INVALID_HANDLE_VALUE)
+	{
+		wcscpy(filenamepath_out,game_directory);
+		wcscpy(&filenamepath_out[path_size],default_ad_dir);
+		PrintLog->PrintSys("Billboard directory not found or empty. Using default billboard.");
+		PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
+	}
+	else
+	{
+		while(FindNextFileW(find_handle,&find_file_data))
+		{
+			if(wcslen(find_file_data.cFileName)>3)
+			{
+				find_filename_list.push_back(find_file_data.cFileName);
+			}
+		}
+
+		wcscpy(filenamepath_out,game_directory);
+		wcscpy(&filenamepath_out[path_size],L"\\billboards\\");
+		wcscpy(&filenamepath_out[path_size+12],find_filename_list[rand()%find_filename_list.size()].c_str());
+
+		PrintLog->PrintSys("CDFObjectInstance::GetAbsoluteFilename(%S)\n",filenamepath_out);
+	}
+	FindClose(find_handle);
 	return 0;
 }
 
