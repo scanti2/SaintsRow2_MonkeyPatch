@@ -77,6 +77,8 @@ int WINAPI Hook_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCm
 		PatchGOGNoFPSLimit();
 
 	extend_vlib_library_load_list();
+	list_resolutions();
+	override_resolutions();
 
 
 	// Continue to the program's WinMain.

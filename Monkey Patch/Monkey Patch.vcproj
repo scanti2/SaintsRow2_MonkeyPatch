@@ -268,6 +268,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Patches\resolutions_list.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Patches\resolutions_list.h"
+				>
+			</File>
+			<File
 				RelativePath=".\vlib_library_load_extender.cpp"
 				>
 			</File>
