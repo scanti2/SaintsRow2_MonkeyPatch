@@ -31,21 +31,28 @@ void override_resolutions()
 			break;
 		}
 
-		// doesn't check for all errors but should be good enough.
-
 		width=strtol(current_line, &end_of_num, 10);
-		
-		while(!isdigit(*end_of_num))
+
+		while(*end_of_num && !isdigit(*end_of_num))
 		{
 			end_of_num++;
 		}
 
 		height=strtol(end_of_num, &end_of_num, 10);
-		
-		resolution_width_list[i]=width;
-		resolution_height_list[i]=height;
 
-		PrintLog->PrintSys("resolutions.txt line [%i] = %i X %i \n", i, width, height);
+		// As neither width or height can be 0 and strtol returns 0 when it can't convert a number use this for error checking
+		if(width && height)
+		{
+			
+			resolution_width_list[i]=width;
+			resolution_height_list[i]=height;	
+
+			PrintLog->PrintSys("resolutions.txt line [%i] = %i X %i \n", i, width, height);
+		}
+		else
+		{
+			PrintLog->PrintSys("error parsing line %i: %s in resolutions.txt",i,current_line);
+		}
 	}
 	fclose(resolutions_file);
 }
