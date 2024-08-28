@@ -78,7 +78,8 @@ int WINAPI Hook_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCm
 
 	extend_vlib_library_load_list();
 	list_resolutions();
-	override_resolutions();
+	enumerate_resolutions();
+	//patch_localization_strings();
 
 
 	// Continue to the program's WinMain.

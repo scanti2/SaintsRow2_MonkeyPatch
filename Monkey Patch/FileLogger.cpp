@@ -134,6 +134,28 @@ bool FileLogger::PrintLevel(int Level,char *message,va_list vars) const
 	return(IsOK());
 }
 
+bool FileLogger::PrintMore(char *message, ...) const
+{	
+	va_list args;
+    va_start(args, message);
+
+	if (IsOK())
+	{
+		vfprintf(log_handle,message, args);
+	}
+
+	va_end(args);
+
+// If we are debugging we could be crashing, so make sure the log file data is written so soon as possible. Otherwise
+// important debugging info could get lost in the crash.
+
+//#ifdef _DEBUG
+	fflush(log_handle);
+//#endif
+
+	return(IsOK());
+}
+
 bool FileLogger::Print(char *message,va_list vars) const
 {
 	if(IsOK())

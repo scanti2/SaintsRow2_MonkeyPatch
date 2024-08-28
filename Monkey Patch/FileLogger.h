@@ -13,6 +13,7 @@ public:
 	bool PrintWarn(char *message,...) const;
 	bool PrintError(char *message,...) const;
 	bool PrintFatal(char *message,...) const;
+	bool PrintMore(char *message, ...) const;
 	void SetLogLevel(int Level);
 	int GetLogLevel() const
 	{
