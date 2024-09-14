@@ -6651,21 +6651,26 @@ vsync_slider_values	= {
 }
 
 resolution_slider_values	= {
-	[0] = { label = "640x480 test" },
-	[1] = { label = "800x600" },
-	[2] = { label = "1024x768" },
-	[3] = { label = "1280x720" },
-	[4] = { label = "1280x800" },
-	[5] = { label = "1280x960" },
-	[6] = { label = "1280x1024" },
-	[7] = { label = "1440x900" },
-	[8] = { label = "1600x1200" },
-	[9] = { label = "1680x1050" },
-	[10] = { label = "1920x1080" },
-	[11] = { label = "1920x1200" },
-	[12] = { label = "1920x1440" },
-	[13] = { label = "2048x1536" },
-	num_values = 14,
+	
+	[0] = { label = "option 0" },
+	[1] = { label = "option 1" },
+	[2] = { label = "option 2" },
+	[3] = { label = "option_3" },
+	[4] = { label = "option_4" },
+	[5] = { label = "option_5" },
+	[6] = { label = "option_6" },
+	[7] = { label = "option_7" },
+	[8] = { label = "option_8" },
+	[9] = { label = "option 9" },
+	[10] = { label = "option 10" },
+	[11] = { label = "option 11" },
+	[12] = { label = "option 12" },
+	[13] = { label = "option 13" },
+	[14] = { label = "option 14" },
+	[15] = { label = "option 15" },
+	
+	num_items = 18,
+	num_values = 16,
 	cur_value = 0
 }
 
