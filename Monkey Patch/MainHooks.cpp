@@ -68,6 +68,12 @@ int WINAPI Hook_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCm
 			PrintLog->PrintInfo("keepfpslimit - Keeping GOG FPS limiter.\n");
 			keepfpslimit=true;
 		}
+
+		if (!strcmp(pargv[0][i],"test_res"))
+		{
+			PrintLog->PrintInfo("test_res - Setting resolution to 800x600.\n");
+			override_resolution=true;
+		}
 	}
 
 	// Add patch routines here.
@@ -77,8 +83,10 @@ int WINAPI Hook_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCm
 		PatchGOGNoFPSLimit();
 
 	extend_vlib_library_load_list();
-	list_resolutions();
-	enumerate_resolutions();
+	//list_resolutions();
+	//enumerate_resolutions();
+
+	patch_override_resolution();
 	//patch_localization_strings();
 
 

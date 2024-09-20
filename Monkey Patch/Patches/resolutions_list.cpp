@@ -2,6 +2,30 @@
 #include "../FileLogger.h"
 #include "../SafeWrite.h"
 
+bool override_resolution=false;
+
+bool __cdecl hook_override_resolution()
+{
+	hook_into_override_resolutions orig_func=(hook_into_override_resolutions)0x00774190;
+
+	bool return_val=orig_func();
+
+	PrintLog->PrintSys("Calling hooked override resolution.\n");
+	
+	if(override_resolution)
+	{
+		PrintLog->PrintSys("Setting resolution to 800x600.\n");
+		*revert_res_width=override_width;
+		*revert_res_height=override_height;
+	}
+	return(return_val);
+}
+
+void patch_override_resolution()
+{
+	WriteRelCall(0x0051D838,(UInt32)&hook_override_resolution);
+}
+
 unsigned int __fastcall hook_localization_strings(char *str)
 {
 	 hook_localization_type orig_localization=(hook_localization_type)0x00BDC9B0;
