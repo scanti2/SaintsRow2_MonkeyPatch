@@ -2,6 +2,7 @@
 #include "FileLogger.h"
 #include "SafeWrite.h"
 #include "Patches/All Patches.h"
+#include "DFEngine.h"
 
 BOOL __stdcall Hook_GetVersionExA(LPOSVERSIONINFOA lpVersionInformation)
 {
@@ -9,13 +10,13 @@ BOOL __stdcall Hook_GetVersionExA(LPOSVERSIONINFOA lpVersionInformation)
 	{
 		GetVersionExAFirstRun=false;
 		PrintLog->PrintSys("Calling hooked GetVersionExA.\n");
-		UInt32 winmaindata=*((UInt32*)0x00520ba0);
+		UInt32 winmaindata=*((UInt32*)offset_addr(0x00520ba0));
 		if(winmaindata==0x83ec8b55)
 		{
 			// The Steam version of the executable is now unencrypted, so we can start patching.
 
 			PrintLog->PrintInfo("Hooking WinMain.\n");
-			WriteRelCall(0x00c9e1c0,(UInt32)&Hook_WinMain);
+			WriteRelCall(offset_addr(0x00c9e1c0),(UInt32)&Hook_WinMain);
 
 			// Add patch routines here for patches that need to be run at crt startup, usually for patching constructors.
 			// Be very careful you can break things easily.
@@ -92,7 +93,7 @@ int WINAPI Hook_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCm
 
 	// Continue to the program's WinMain.
 
-	WinMain_Type OldWinMain=(WinMain_Type)0x00520ba0;
+	WinMain_Type OldWinMain=(WinMain_Type)offset_addr(0x00520ba0);
 	return (OldWinMain(hInstance, hPrevInstance, lpCmdLine,nShowCmd));
 }
 

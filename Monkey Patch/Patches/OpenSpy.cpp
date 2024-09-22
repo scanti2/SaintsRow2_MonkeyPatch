@@ -8,6 +8,7 @@
 #include "OpenSpy.h"
 #include "../FileLogger.h"
 #include "../SafeWrite.h"
+#include "../DFEngine.h"
 
 void PatchOpenSpy()
 {
@@ -16,20 +17,20 @@ void PatchOpenSpy()
 	char openspy[]="openspy.net";
 
 	PrintLog->PrintInfo("Patching openspy.\n");
-	SafeWriteBuf(0x00e33568+13,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e33e60+0,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e34088+15,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e346f8+22,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e34a54+10,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e355b0+8,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e37e44+8,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e37e58+8,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e37e6c+8,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e38018+12,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e38080+12,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e88cd0+5,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e88e18+5,&openspy,sizeof(openspy)-1);
-	SafeWriteBuf(0x00e35600,&AuthService,sizeof(AuthService));
-	SafeWriteBuf(0x00dd0c78,&newkey,sizeof(newkey));
+	SafeWriteBuf(offset_addr(0x00e33568+13),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e33e60+0),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e34088+15),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e346f8+22),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e34a54+10),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e355b0+8),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e37e44+8),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e37e58+8),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e37e6c+8),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e38018+12),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e38080+12),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e88cd0+5),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e88e18+5),&openspy,sizeof(openspy)-1);
+	SafeWriteBuf(offset_addr(0x00e35600),&AuthService,sizeof(AuthService));
+	SafeWriteBuf(offset_addr(0x00dd0c78),&newkey,sizeof(newkey));
 	return;
 }

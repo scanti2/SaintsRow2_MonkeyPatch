@@ -2,6 +2,10 @@
 
 void set_up_billboard_stuff();
 
+extern int address_offset;
+
+#define offset_addr(x)  ((x)+address_offset)
+
 class CDFObjectInstance
 {
 public:

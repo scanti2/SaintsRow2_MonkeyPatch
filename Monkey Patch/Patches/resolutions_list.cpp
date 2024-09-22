@@ -2,11 +2,12 @@
 #include "../FileLogger.h"
 #include "../SafeWrite.h"
 
+
 bool override_resolution=false;
 
 bool __cdecl hook_override_resolution()
 {
-	hook_into_override_resolutions orig_func=(hook_into_override_resolutions)0x00774190;
+	hook_into_override_resolutions orig_func=(hook_into_override_resolutions)offset_addr(0x00774190);
 
 	bool return_val=orig_func();
 
@@ -23,12 +24,12 @@ bool __cdecl hook_override_resolution()
 
 void patch_override_resolution()
 {
-	WriteRelCall(0x0051D838,(UInt32)&hook_override_resolution);
+	WriteRelCall(offset_addr(0x0051D838),(UInt32)&hook_override_resolution);
 }
 
 unsigned int __fastcall hook_localization_strings(char *str)
 {
-	 hook_localization_type orig_localization=(hook_localization_type)0x00BDC9B0;
+	 hook_localization_type orig_localization=(hook_localization_type)offset_addr(0x00BDC9B0);
 	 if(isdigit(*str))
 	 {
 		 PrintLog->PrintSys("Localization string: %s\n",str);
@@ -39,7 +40,7 @@ unsigned int __fastcall hook_localization_strings(char *str)
 
 void patch_localization_strings()
 {
-	WriteRelCall(0x007F4BC9, (UInt32)&hook_localization_strings);
+	WriteRelCall(offset_addr(0x007F4BC9), (UInt32)&hook_localization_strings);
 }
 
 

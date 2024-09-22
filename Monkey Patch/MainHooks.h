@@ -1,8 +1,9 @@
 #pragma once
 #include "stdafx.h"
+#include "DFEngine.h"
 
-static int *pargc=(int*)0x00ee07c0;
-static char ***pargv=(char***)0x00ee07c4;
+static int *pargc=(int*)offset_addr(0x00ee07c0);
+static char ***pargv=(char***)offset_addr(0x00ee07c4);
 
 static bool keepfpslimit=false;
 

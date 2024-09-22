@@ -9,10 +9,11 @@
 #include "GOG No FPS limiter.h"
 #include "../FileLogger.h"
 #include "../SafeWrite.h"
+#include "../DFEngine.h"
 
 void PatchGOGNoFPSLimit()
 {
 	PrintLog->PrintInfo("Patching GOG No FPS Limit.\n");
-	WriteRelCall(0x00d20d5a,0x00d20230);
+	WriteRelCall(offset_addr(0x00d20d5a),offset_addr(0x00d20230));
 	return;
 }

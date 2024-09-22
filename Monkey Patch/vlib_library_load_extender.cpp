@@ -6,18 +6,19 @@
 #include "vlib_library_load_extender.h"
 #include <string.h>
 #include "SafeWrite.h"
+#include "DFEngine.h"
 
 void extend_vlib_library_load_list()
 {
-	memcpy(&new_vlib_library_load_list,(void*)(0x00E98A28),16*4);
+	memcpy(&new_vlib_library_load_list,(void*)(offset_addr(0x00E98A28)),16*4);
 	
 	#if ADDED_VINT_LIBRARIES>0
 		for (int i=0; i<ADDED_VINT_LIBRARIES; i++)
 			new_vlib_library_load_list[16+i]=added_libraries[i];
 	#endif
 
-	SafeWrite32(0x0051DAD2,(UInt32)&new_vlib_library_load_list);
-	SafeWrite8(0x0051DB38,(16+ADDED_VINT_LIBRARIES)*4);
+	SafeWrite32(offset_addr(0x0051DAD2),(UInt32)&new_vlib_library_load_list);
+	SafeWrite8(offset_addr(0x0051DB38),(16+ADDED_VINT_LIBRARIES)*4);
 
 	return;
 }

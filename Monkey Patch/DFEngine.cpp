@@ -12,6 +12,8 @@
 static CDFEngine DFEngine;
 static CDFObjectInstance fake_CDFObject;
 
+int address_offset=0;
+
 static std::vector<std::wstring> find_billboards_list;
 static int number_of_billboard_files;
 
@@ -27,7 +29,15 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		PrintLog->SetLogLevel(4);
 		PrintLog->PrintSys("DLL_PROCESS_ATTACH DFEngine.\n");
 
-		UInt32 winmaindata=*((UInt32*)0x00520ba0);
+		HMODULE main_handle=GetModuleHandleA(NULL);
+		
+		if((unsigned int)main_handle!=0x0400000)
+		{
+			address_offset=(unsigned int)main_handle-0x0400000;
+			PrintLog->PrintWarn("Executable base doesn't match default. Base = 0x%08X offset %i\n",(unsigned int)main_handle, address_offset);
+		}
+
+		UInt32 winmaindata=*((UInt32*)offset_addr(0x00520ba0));
 		if(winmaindata!=0x83ec8b55)
 			PrintLog->PrintWarn("WinMain sanity check failed. Probably running the Steam encrypted version.\n");
 
@@ -40,7 +50,7 @@ are called. Fortunately by this time Steam has decrypted the program data. We th
 WinMain entry point.
 */
 
-		HMODULE main_handle=GetModuleHandleA(NULL);
+
 		if(PatchIat(main_handle,"Kernel32.dll", "GetVersionExA", (void *)Hook_GetVersionExA, &old_proc)==S_OK)
 			PrintLog->PrintSys("Patched Kernel32.GetVersionExA.\n");
 		else
