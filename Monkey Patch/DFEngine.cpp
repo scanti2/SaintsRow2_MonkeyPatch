@@ -35,6 +35,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		{
 			address_offset=(unsigned int)main_handle-0x0400000;
 			PrintLog->PrintWarn("Executable base doesn't match default. Base = 0x%08X offset %i\n",(unsigned int)main_handle, address_offset);
+			PrintLog->PrintWarn("You probably have the Manditory ASLR setting enabled. This patch will still work.\n");
+			PrintLog->PrintWarn("However, it's recommended that you disable the setting globally (as it can cause instabilty)\n");
+			PrintLog->PrintWarn("and only enable it for programs you wish to harden.\n");
 		}
 
 		UInt32 winmaindata=*((UInt32*)offset_addr(0x00520ba0));
