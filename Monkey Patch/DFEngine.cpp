@@ -17,6 +17,7 @@ int address_offset=0;
 static std::vector<std::wstring> find_billboards_list;
 static int number_of_billboard_files;
 
+
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
